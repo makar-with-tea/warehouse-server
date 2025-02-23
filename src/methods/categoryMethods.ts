@@ -4,7 +4,6 @@ import { Category } from '../models/category';
 
 const categoriesCollection = db.collection('categories');
 
-// Create a new category
 export const createCategory = async (req: Request, res: Response) => {
   try {
     const { name, id } = req.body;
@@ -19,7 +18,6 @@ export const createCategory = async (req: Request, res: Response) => {
   }
 };
 
-// Get all categories
 export const getCategories = async (req: Request, res: Response) => {
   try {
     const snapshot = await categoriesCollection.get();
@@ -30,7 +28,6 @@ export const getCategories = async (req: Request, res: Response) => {
   }
 };
 
-// Get a single category by ID
 export const getCategoryById = async (req: Request, res: Response) => {
   try {
     const doc = await categoriesCollection.doc(req.params.id).get();
@@ -43,7 +40,6 @@ export const getCategoryById = async (req: Request, res: Response) => {
   }
 };
 
-// Update a category by ID
 export const updateCategory = async (req: Request, res: Response) => {
   try {
     const { name } = req.body;
@@ -60,7 +56,6 @@ export const updateCategory = async (req: Request, res: Response) => {
   }
 };
 
-// Delete a category by ID
 export const deleteCategory = async (req: Request, res: Response) => {
   try {
     const docRef = categoriesCollection.doc(req.params.id);

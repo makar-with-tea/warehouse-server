@@ -3,7 +3,6 @@ import { productController } from '../controllers/productController';
 
 const router = Router();
 
-// Product routes
 router.post('/products', productController.createProduct);
 router.get('/products', productController.getProducts);
 router.get('/products/:id', productController.getProductById);
