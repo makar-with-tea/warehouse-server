@@ -6,11 +6,11 @@ const categoriesCollection = db.collection('categories');
 
 export const createCategory = async (req: Request, res: Response) => {
   try {
-    const { name, id } = req.body;
-    if (!name) {
-      return res.status(400).json({ message: 'Name is required' });
+    const { name, id, allowedGroups } = req.body;
+    if (!name || !allowedGroups) {
+      return res.status(400).json({ message: 'Name and allowedGroups are required' });
     }
-    const category: Category = { name, id };
+    const category: Category = { name, id, allowedGroups };
     const docRef = await categoriesCollection.doc(id.toString()).set(category);
     res.status(201).json({ ...category, id: docRef.id });
   } catch (error) {
@@ -42,13 +42,29 @@ export const getCategoryById = async (req: Request, res: Response) => {
 
 export const updateCategory = async (req: Request, res: Response) => {
   try {
-    const { name } = req.body;
-    if (!name) {
-      return res.status(400).json({ message: 'Name is required' });
+    const { name, allowedGroups } = req.body;
+    if (!name || !allowedGroups) {
+      return res.status(400).json({ message: 'Name and allowedGroups are required' });
     }
-    const category = { name };
+
     const docRef = categoriesCollection.doc(req.params.id);
-    await docRef.update(category);
+    const doc = await docRef.get();
+    if (!doc.exists) {
+      return res.status(404).json({ message: 'Category not found' });
+    }
+
+    const category = doc.data() as Category;
+    const userGroup = req.user?.group;
+    if (!userGroup) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    if (userGroup !== 'admin' && !category.allowedGroups.includes(userGroup)) {
+      return res.status(403).json({ message: 'You do not have permission to update this category' });
+    }
+
+    const updatedCategory = { name, allowedGroups };
+    await docRef.update(updatedCategory);
     const updatedDoc = await docRef.get();
     res.status(200).json({ id: updatedDoc.id, ...updatedDoc.data() });
   } catch (error) {
@@ -59,6 +75,21 @@ export const updateCategory = async (req: Request, res: Response) => {
 export const deleteCategory = async (req: Request, res: Response) => {
   try {
     const docRef = categoriesCollection.doc(req.params.id);
+    const doc = await docRef.get();
+    if (!doc.exists) {
+      return res.status(404).json({ message: 'Category not found' });
+    }
+
+    const category = doc.data() as Category;
+    const userGroup = req.user?.group;
+    if (!userGroup) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    if (userGroup !== 'admin' && !category.allowedGroups.includes(userGroup)) {
+      return res.status(403).json({ message: 'You do not have permission to delete this category' });
+    }
+
     await docRef.delete();
     res.status(200).json({ message: 'Category deleted successfully' });
   } catch (error) {
