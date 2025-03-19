@@ -6,6 +6,7 @@ import cors from 'cors';
 import { errorHandler } from './utils/errorHandler';
 import { logger } from './utils/logger';
 import authRoutes from './routes/authRoutes';
+import cookieParser from 'cookie-parser';
 // import { clearData, importData } from './utils/updateDB';
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(errorHandler);
 app.use(logger);
+app.use(cookieParser());
 
 app.use('/api', productRoutes);
 app.use('/api', categoryRoutes);
