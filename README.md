@@ -26,6 +26,13 @@
 #### Запрос без валидного токена
 ![Screenshot 2025-03-19 214234](https://github.com/user-attachments/assets/3f4e081f-6dbc-4a9b-a92f-73c8cac0728f)
 
+### Управление категориями с разным уровнем доступа
+#### Изменение категории, к которой у пользователя есть доступ
+![Screenshot 2025-03-19 222236](https://github.com/user-attachments/assets/d1e7f355-b734-4de0-a719-1bf818e27302)
+
+#### Изменение категории, к которой у пользователя нет доступа
+![Screenshot 2025-03-19 222505](https://github.com/user-attachments/assets/84c3ee31-f25a-475c-9d91-ac1f46fc93f5)
+
 ### Управление товарами
 #### Создание товара (Create)
 ![Screenshot 2025-02-23 193004](https://github.com/user-attachments/assets/d5907726-dc68-4e9d-8cdf-fcdf3eccbc61)
