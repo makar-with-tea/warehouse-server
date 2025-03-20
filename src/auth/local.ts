@@ -34,7 +34,7 @@ export const login = async (req: Request, res: Response) => {
 
   res.cookie('accessToken', accessToken, { httpOnly: true });
   res.cookie('refreshToken', refreshToken, { httpOnly: true });
-  res.json({ accessToken, refreshToken });
+  res.json({ accessToken, refreshToken, user });
 };
 
 export const logout = async (req: Request, res: Response) => {
