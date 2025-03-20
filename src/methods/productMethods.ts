@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { db } from '../utils/firebaseConfig';
-import { Product } from '../models/product';
+import { Product } from '../models/Product';
 
 const productsCollection = db.collection('products');
 
